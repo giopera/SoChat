@@ -16,6 +16,11 @@ public class Main {
         server.run();
         Socket s = null;
         logger.debug("Server Runned");
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         try{
             s = new Socket("127.0.0.1", 6969);
         } catch (IOException ignored) {
@@ -26,10 +31,17 @@ public class Main {
             return;
         }
         try {
-            new PrintWriter(s.getOutputStream()).println("Ciao");
+            PrintWriter writer = new PrintWriter(s.getOutputStream());
+            writer.println("Ciao");
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            writer.close();
         } catch (IOException ignored) {
             logger.debug("Error with write to socket");
         }
-        logger.debug("Writed to socket");
+        logger.debug("Wrote to socket");
     }
 }
