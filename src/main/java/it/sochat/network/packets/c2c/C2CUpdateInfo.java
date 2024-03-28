@@ -11,7 +11,7 @@ public class C2CUpdateInfo extends C2CPacket {
         super.packetType = C2CUpdateInfo.class;
         super.packetCategory = C2CPacket.class;
 
-        super.categoryID = 1;
+        super.categoryID = C2CPacket.CATID;
         super.packetID = 2;
     }
 

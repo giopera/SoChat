@@ -1,5 +1,7 @@
 package it.sochat.network.packets.c2c;
 
+import it.sochat.objects.ByteBuffer;
+
 import java.sql.Timestamp;
 
 public class C2CMessageSend extends C2CPacket{
@@ -22,8 +24,10 @@ public class C2CMessageSend extends C2CPacket{
 
     @Override
     public byte[] encode() {
-
-        return new byte[0];
+        ByteBuffer buffer  = new ByteBuffer(this);
+        buffer.addString(message);
+        buffer.addTimestamp(sendTimestamp);
+        return buffer.getByteArr();
     }
 
     @Override
