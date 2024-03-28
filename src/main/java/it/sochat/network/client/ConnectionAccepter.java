@@ -1,15 +1,18 @@
-package it.sochat.network.server;
+package it.sochat.network.client;
 
 import it.sochat.Main;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
-public class Server {
+public class ConnectionAccepter {
     ServerSocket server;
 
-    public Server(){
+    ArrayList<ConnectionHandler> activeHandlers = new ArrayList<>();
+
+    public ConnectionAccepter(){
         try {
             server = new ServerSocket(6969);
         } catch (IOException e) {
@@ -27,9 +30,14 @@ public class Server {
                     s = server.accept();
                 } catch (IOException ignored) {}
                 if(s != null)
-                    new ConnecionHandler(s).start();
+                    addHandler(new ConnectionHandler(s)).start();
             }
         }).start();
         Main.logger.debug("run() exit");
+    }
+
+    public synchronized ConnectionHandler addHandler(ConnectionHandler h){
+        activeHandlers.add(h);
+        return h;
     }
 }
