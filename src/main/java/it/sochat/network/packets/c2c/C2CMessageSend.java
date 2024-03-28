@@ -10,6 +10,8 @@ public class C2CMessageSend extends C2CPacket{
     public C2CMessageSend() {
         super.packetCategory = C2CMessageSend.class;
         super.packetType = C2CPacket.class;
+        super.categoryID = C2CPacket.CATID;
+        super.packetID = 1;
     }
 
     public C2CMessageSend(String message, Timestamp sendTimestamp) {

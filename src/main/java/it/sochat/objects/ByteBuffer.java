@@ -1,5 +1,6 @@
 package it.sochat.objects;
 
+import it.sochat.network.packets.Packet;
 import it.sochat.network.packets.c2c.C2CMessageSend;
 import it.sochat.network.packets.c2c.C2CUpdateInfo;
 
@@ -11,23 +12,17 @@ public class ByteBuffer {
     static final int CHAR = 5;
     static final int TIMESTAMP = 6;
 
-    byte[] buf = new byte[4];
+    byte[] buf = new byte[7];
 
     byte closeChar = 0;
 
     Class<?> packetType;
 
-    public ByteBuffer(Class<?> packetType) {
-        this.packetType = packetType;
-        int c = 0;
-        if(packetType.equals(C2CMessageSend.class)){
-            buf[0] = 1;
-            buf[1] = 1;
-        } else if (packetType.equals(C2CUpdateInfo.class)) {
-            buf[0] = 1;
-            buf[1] = 2;
-        }
-        buf[3] = (byte) (buf[0]^buf[1]);
+    public ByteBuffer(Packet p) {
+        this.packetType = p.getPacketType();
+        buf[0] = p.getCategoryID();
+        buf[1] = p.getPacketID();
+        buf[6] = (byte) (buf[0]^buf[1]);
     }
 
     public void addInteger(Integer i){
@@ -55,10 +50,10 @@ public class ByteBuffer {
 
         for(int j = 0; j < i.length; j++) {
             Integer integer = i[j];
-            res[buf.length + 2 + j] = (byte) (integer >>> 24);
-            res[buf.length + 3 + j] = (byte) (integer >>> 16);
-            res[buf.length + 4 + j] = (byte) (integer >>> 8);
-            res[buf.length + 5 + j] = integer.byteValue();
+            res[buf.length + 2 + (j * Integer.BYTES)] = (byte) (integer >>> 24);
+            res[buf.length + 3 + (j * Integer.BYTES)] = (byte) (integer >>> 16);
+            res[buf.length + 4 + (j * Integer.BYTES)] = (byte) (integer >>> 8);
+            res[buf.length + 5 + (j * Integer.BYTES)] = integer.byteValue();
         }
 
         buf = res;
@@ -88,9 +83,10 @@ public class ByteBuffer {
         closeChar ^= res[buf.length];
         res[buf.length + 1] = (byte) (Character.BYTES * c.length());
 
-        for(char s : c.toCharArray()) {
-            res[buf.length + 2] = (byte) (s >>> 8);
-            res[buf.length + 3] = (byte) s;
+        for(int j = 0; j < c.length(); j++) {
+            char s = c.charAt(j);
+            res[buf.length + 2 + (j * Character.BYTES)] = (byte) (s >>> 8);
+            res[buf.length + 3 + (j * Character.BYTES)] = (byte) s;
         }
         buf = res;
     }
@@ -116,6 +112,18 @@ public class ByteBuffer {
         res[buf.length + 9] = (byte) l;
 
         buf = res;
+    }
+
+    public byte[] getByteArr(){
+        byte[] res = new byte[buf.length + 1];
+        int i = res.length + 1;
+        System.arraycopy(buf, 0, res, 0, buf.length);
+        res[buf.length] = closeChar;
+        res[2] = (byte)(i >>> 24);
+        res[3] = (byte)(i >>> 16);
+        res[4] = (byte)(i >>> 8);
+        res[5] = (byte) i;
+        return res;
     }
 
 }
