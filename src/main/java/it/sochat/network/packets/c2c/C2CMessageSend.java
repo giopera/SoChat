@@ -32,7 +32,9 @@ public class C2CMessageSend extends C2CPacket{
 
     @Override
     public void decode(byte[] buffer) {
-
+        ByteBuffer buf = new ByteBuffer(this, buffer);
+        this.message = buf.getString(0);
+        this.sendTimestamp = buf.getTimestamp(0);
     }
 
     @Override

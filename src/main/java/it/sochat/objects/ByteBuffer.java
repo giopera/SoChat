@@ -5,6 +5,7 @@ import it.sochat.network.packets.c2c.C2CMessageSend;
 import it.sochat.network.packets.c2c.C2CUpdateInfo;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 
 public class ByteBuffer {
 
@@ -25,6 +26,10 @@ public class ByteBuffer {
         buf[0] = p.getCategoryID();
         buf[1] = p.getPacketID();
         buf[6] = (byte) (buf[0]^buf[1]);
+    }
+
+    public ByteBuffer(Packet p, byte[] start){
+        this.buf = Arrays.copyOf(start, start.length);
     }
 
     public void addInteger(Integer i){
@@ -98,8 +103,6 @@ public class ByteBuffer {
         System.arraycopy(buf, 0, res, 0, buf.length);
 
         long l = i.getTime();
-
-
         res[buf.length] = ByteBuffer.TIMESTAMP;
         closeChar ^= res[buf.length];
         res[buf.length + 1] = Long.BYTES;
@@ -151,9 +154,32 @@ public class ByteBuffer {
         for(int i = 0; i <= n;){
             if(buf[mark] == ByteBuffer.CHAR && i == n){
                 int res = 0;
-                res += (((int) buf[mark+4]) << 8);
-                res += buf[mark + 5];
+                res += (((int) buf[mark+2]) << 8);
+                res += buf[mark + 3];
                 return (char) res;
+            } else if (buf[mark] == ByteBuffer.CHAR) {
+                i++;
+            }
+            mark += (2 + buf[mark + 1]);
+        }
+        throw new IndexOutOfBoundsException("You know what you've done wrong");
+
+    }
+
+    public Timestamp getTimestamp(int n){
+        int mark = 7;
+        for(int i = 0; i <= n;){
+            if(buf[mark] == ByteBuffer.TIMESTAMP && i == n){
+                long res = 0;
+                res += (((long) buf[mark + 2]) << 56);
+                res += (((long) buf[mark + 3]) << 48);
+                res += (((long) buf[mark + 4]) << 40);
+                res += (((long) buf[mark + 5]) << 32);
+                res += (((long) buf[mark + 6]) << 24);
+                res += (((long) buf[mark + 7]) << 16);
+                res += (((long) buf[mark + 8]) << 8);
+                res += buf[mark + 9];
+                return new Timestamp(res);
             } else if (buf[mark] == ByteBuffer.CHAR) {
                 i++;
             }

@@ -6,6 +6,10 @@ public class UserInfo {
     private String username;
     private Color color;
 
+    public UserInfo(String username, Color color) {
+        this.username = username;
+        this.color = color;
+    }
 
     public String getUsername() {
         return username;
