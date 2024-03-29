@@ -1,0 +1,108 @@
+Index: src/main/java/it/sochat/network/server/Server.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.sochat.network.server;\n\nimport it.sochat.Main;\n\nimport java.io.IOException;\nimport java.net.ServerSocket;\nimport java.net.Socket;\n\npublic class Server {\n    ServerSocket server;\n\n    public Server(){\n        try {\n            server = new ServerSocket(6969);\n        } catch (IOException e) {\n            throw new RuntimeException(e);\n        }\n    }\n\n    public void run(){\n        Main.logger.debug(\"Server Run()\");\n        new Thread(() -> {\n            while(true){\n                Main.logger.debug(\"Server probe\");\n                Socket s = null;\n                try {\n                    s = server.accept();\n                } catch (IOException ignored) {}\n                if(s != null)\n                    new ConnecionHandler(s).start();\n            }\n        }).start();\n        Main.logger.debug(\"run() exit\");\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/sochat/network/server/Server.java b/src/main/java/it/sochat/network/server/Server.java
+--- a/src/main/java/it/sochat/network/server/Server.java	(revision 0429e2b0a3dcbc95ae474c792cc8e14dc1d33979)
++++ b/src/main/java/it/sochat/network/server/Server.java	(date 1708708345463)
+@@ -18,10 +18,8 @@
+     }
+ 
+     public void run(){
+-        Main.logger.debug("Server Run()");
+         new Thread(() -> {
+             while(true){
+-                Main.logger.debug("Server probe");
+                 Socket s = null;
+                 try {
+                     s = server.accept();
+@@ -29,7 +27,6 @@
+                 if(s != null)
+                     new ConnecionHandler(s).start();
+             }
+-        }).start();
+-        Main.logger.debug("run() exit");
++        }, "Server Accepter").start();
+     }
+ }
+Index: src/main/java/it/sochat/network/server/ConnecionHandler.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.sochat.network.server;\n\nimport java.io.*;\nimport java.net.Socket;\nimport java.util.Scanner;\n\nimport static it.sochat.Main.logger;\n\npublic class ConnecionHandler extends Thread {\n\n    Socket socket;\n    PrintWriter out;\n    Scanner in;\n\n    public ConnecionHandler(Socket socket) {\n        this.socket = socket;\n        try{\n            out = new PrintWriter(socket.getOutputStream());\n            in = new Scanner(socket.getInputStream());\n        } catch (IOException ignored){\n\n        }\n    }\n\n    @Override\n    public void run() {\n        while(true){\n            try {\n                Thread.sleep(1000);\n                if(!in.hasNextLine())\n                    continue;\n                logger.debug(\"Trying reading line\");\n                String s = in.nextLine();\n                if(s != null)\n                    System.out.print(s);\n            } catch (InterruptedException e) {\n                throw new RuntimeException(e);\n            }\n        }\n\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/sochat/network/server/ConnecionHandler.java b/src/main/java/it/sochat/network/server/ConnecionHandler.java
+--- a/src/main/java/it/sochat/network/server/ConnecionHandler.java	(revision 0429e2b0a3dcbc95ae474c792cc8e14dc1d33979)
++++ b/src/main/java/it/sochat/network/server/ConnecionHandler.java	(date 1708708384853)
+@@ -2,6 +2,7 @@
+ 
+ import java.io.*;
+ import java.net.Socket;
++import java.util.Locale;
+ import java.util.Scanner;
+ 
+ import static it.sochat.Main.logger;
+@@ -24,18 +25,20 @@
+ 
+     @Override
+     public void run() {
++        Thread.currentThread().setName(socket.getInetAddress().toString());
+         while(true){
+-            try {
+-                Thread.sleep(1000);
+-                if(!in.hasNextLine())
+-                    continue;
+-                logger.debug("Trying reading line");
+-                String s = in.nextLine();
+-                if(s != null)
+-                    System.out.print(s);
+-            } catch (InterruptedException e) {
+-                throw new RuntimeException(e);
++            if(!in.hasNextLine())
++                continue;
++            String s = in.nextLine();
++            if(s.equals("END")) {
++                try {
++                    socket.close();
++                    break;
++                } catch (IOException e) {
++                    throw new RuntimeException(e);
++                }
+             }
++            System.out.println(s);
+         }
+ 
+     }
+Index: src/main/java/it/sochat/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package it.sochat;\n\nimport it.sochat.network.server.Server;\nimport org.apache.logging.log4j.Logger;\nimport org.apache.logging.log4j.LogManager;\n\nimport java.io.IOException;\nimport java.io.PrintWriter;\nimport java.net.Socket;\n\npublic class Main {\n\n    public static Logger logger = LogManager.getLogger();\n    public static Server server = new Server();\n    public static void main(String[] args) {\n        server.run();\n        Socket s = null;\n        logger.debug(\"Server Runned\");\n        try{\n            s = new Socket(\"127.0.0.1\", 6969);\n        } catch (IOException ignored) {\n            logger.error(\"Error in socket creation\");\n        }\n        logger.debug(\"Socket created\");\n        if(s == null){\n            return;\n        }\n        try {\n            new PrintWriter(s.getOutputStream()).println(\"Ciao\");\n        } catch (IOException ignored) {\n            logger.debug(\"Error with write to socket\");\n        }\n        logger.debug(\"Writed to socket\");\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/sochat/Main.java b/src/main/java/it/sochat/Main.java
+--- a/src/main/java/it/sochat/Main.java	(revision 0429e2b0a3dcbc95ae474c792cc8e14dc1d33979)
++++ b/src/main/java/it/sochat/Main.java	(date 1708708345506)
+@@ -13,8 +13,9 @@
+     public static Logger logger = LogManager.getLogger();
+     public static Server server = new Server();
+     public static void main(String[] args) {
++        Thread.currentThread().setName("Main");
+         server.run();
+-        Socket s = null;
++/*        Socket s = null;
+         logger.debug("Server Runned");
+         try{
+             s = new Socket("127.0.0.1", 6969);
+@@ -31,5 +32,7 @@
+             logger.debug("Error with write to socket");
+         }
+         logger.debug("Writed to socket");
++
++ */
+     }
+ }

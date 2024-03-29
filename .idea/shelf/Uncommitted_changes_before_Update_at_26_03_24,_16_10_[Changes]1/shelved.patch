@@ -1,0 +1,20 @@
+Index: src/main/resources/log4j2.xml
+===================================================================
+diff --git a/src/main/resources/log4j2.xml b/src/main/resources/log4j2.xml
+deleted file mode 100644
+--- a/src/main/resources/log4j2.xml	(revision 0429e2b0a3dcbc95ae474c792cc8e14dc1d33979)
++++ /dev/null	(revision 0429e2b0a3dcbc95ae474c792cc8e14dc1d33979)
+@@ -1,13 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<Configuration status="INFO">
+-    <Appenders>
+-        <Console name="console" target="SYSTEM_OUT">
+-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+-        </Console>
+-    </Appenders>
+-    <Loggers>
+-        <Root level="trace">
+-            <AppenderRef ref="console" />
+-        </Root>
+-    </Loggers>
+-</Configuration>
