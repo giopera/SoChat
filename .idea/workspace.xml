@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8edb5b80-b5dd-42c7-921a-a54b84c633ce" name="Changes" comment="Adding the Get methods necessary for the decoding process">
+    <list default="true" id="b563c10d-4db8-4937-a74d-a4e37b661d9f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/Test.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/sochat/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/sochat/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/sochat/objects/ByteBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/sochat/objects/ByteBuffer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,34 +25,37 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/it/sochat/Main.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 6
-}</component>
-  <component name="ProjectId" id="2c5fAgfVBqVICrKcQc5IsE4wP05" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
   </component>
+  <component name="ProjectId" id="2drBM2tD9VxFINdppglB5SGImjV" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.Main.executor": "Debug",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/giopera/clone/SoChat",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/local/FERMI/s02888/SoChat&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="it.sochat.Main" />
@@ -70,55 +76,15 @@
       </list>
     </recent_temporary>
   </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="jdk-17.0.9-corretto-17.0.9-4caba194b151-3c5dfc45" />
-      </set>
-    </attachedChunks>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="8edb5b80-b5dd-42c7-921a-a54b84c633ce" name="Changes" comment="" />
-      <created>1707406217781</created>
+      <changelist id="b563c10d-4db8-4937-a74d-a4e37b661d9f" name="Changes" comment="" />
+      <created>1710756267784</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1707406217781</updated>
+      <updated>1710756267784</updated>
     </task>
-    <task id="LOCAL-00001" summary="Implementing network packets and first step for the byte buffer creation">
-      <option name="closed" value="true" />
-      <created>1711613176798</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1711613176798</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Fixing the ByteBuffer and creating a more generic code">
-      <option name="closed" value="true" />
-      <created>1711617332120</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1711617332120</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Adding the Get methods necessary for the decoding process">
-      <option name="closed" value="true" />
-      <created>1711657075271</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1711657075271</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Adding the Get methods necessary for the decoding process">
-      <option name="closed" value="true" />
-      <created>1711718178963</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1711718178963</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -132,29 +98,62 @@
       </map>
     </option>
   </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Implementing network packets and first step for the byte buffer creation" />
-    <MESSAGE value="Fixing the ByteBuffer and creating a more generic code" />
-    <MESSAGE value="Adding the Get methods necessary for the decoding process" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding the Get methods necessary for the decoding process" />
-  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <breakpoint enabled="true" type="java-exception">
-          <properties class="java.io.WriteAbortedException" package="java.io" />
+          <properties class="java.util.NoSuchElementException" package="java.util" />
           <option name="timeStamp" value="1" />
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/it/sochat/objects/ByteBuffer.java</url>
           <line>181</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/it/sochat/objects/ByteBuffer.java</url>
+          <line>180</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/it/sochat/objects/ByteBuffer.java</url>
-          <line>106</line>
+          <line>179</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/it/sochat/objects/ByteBuffer.java</url>
+          <line>178</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/it/sochat/objects/ByteBuffer.java</url>
+          <line>177</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/it/sochat/objects/ByteBuffer.java</url>
+          <line>176</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/it/sochat/objects/ByteBuffer.java</url>
+          <line>175</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/it/sochat/objects/ByteBuffer.java</url>
+          <line>174</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/it/sochat/objects/ByteBuffer.java</url>
+          <line>173</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/it/sochat/objects/ByteBuffer.java</url>
+          <line>172</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -51,13 +51,14 @@ public class Main {
         }
         logger.debug("Wrote to socket");
 
-         */
+        */
 
         ByteBuffer b = new ByteBuffer(new C2CMessageSend());
-        b.addTimestamp(new Timestamp(System.currentTimeMillis()));
+        b.addLong(System.currentTimeMillis());
         System.out.println(System.currentTimeMillis());
         System.out.println(new Timestamp(System.currentTimeMillis()));
         System.out.println(Arrays.toString(b.getByteArr()));
         System.out.println(b.getTimestamp(0));
+        System.out.println(b.getTimestamp(0).getTime());
     }
 }

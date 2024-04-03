@@ -1,8 +1,6 @@
 package it.sochat.objects;
 
 import it.sochat.network.packets.Packet;
-import it.sochat.network.packets.c2c.C2CMessageSend;
-import it.sochat.network.packets.c2c.C2CUpdateInfo;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
@@ -13,7 +11,7 @@ public class ByteBuffer {
     static final byte INTEGER_ARRAY = 41;
     static final byte CHAR = 20;
     static final byte STRING = 21;
-    static final byte TIMESTAMP = 6;
+    static final byte LONG = 6;
 
     byte[] buf = new byte[7];
 
@@ -29,7 +27,7 @@ public class ByteBuffer {
     }
 
     public ByteBuffer(Packet p, byte[] start){
-        this.buf = Arrays.copyOf(start, start.length);
+        this.buf = Arrays.copyOf(start, start.length - 1);
     }
 
     public void addInteger(Integer i){
@@ -98,22 +96,21 @@ public class ByteBuffer {
         buf = res;
     }
 
-    public void addTimestamp(Timestamp i){
+    public void addLong(long l){
         byte[] res = new byte[buf.length + Long.BYTES + 2];
         System.arraycopy(buf, 0, res, 0, buf.length);
 
-        long l = i.getTime();
-        res[buf.length] = ByteBuffer.TIMESTAMP;
+        res[buf.length] = ByteBuffer.LONG;
         closeChar ^= res[buf.length];
         res[buf.length + 1] = Long.BYTES;
 
-        res[buf.length + 2] = (byte)(l >>> 56);
-        res[buf.length + 3] = (byte)(l >>> 48);
-        res[buf.length + 4] = (byte)(l >>> 40);
-        res[buf.length + 5] = (byte)(l >>> 32);
-        res[buf.length + 6] = (byte)(l >>> 24);
-        res[buf.length + 7] = (byte)(l >>> 16);
-        res[buf.length + 8] = (byte)(l >>> 8);
+        res[buf.length + 2] = (byte) (l >>> 56);
+        res[buf.length + 3] = (byte) (l >>> 48);
+        res[buf.length + 4] = (byte) (l >>> 40);
+        res[buf.length + 5] = (byte) (l >>> 32);
+        res[buf.length + 6] = (byte) (l >>> 24);
+        res[buf.length + 7] = (byte) (l >>> 16);
+        res[buf.length + 8] = (byte) (l >>>  8);
         res[buf.length + 9] = (byte) l;
 
         buf = res;
@@ -169,18 +166,18 @@ public class ByteBuffer {
     public Timestamp getTimestamp(int n){
         int mark = 7;
         for(int i = 0; i <= n;){
-            if(buf[mark] == ByteBuffer.TIMESTAMP && i == n){
+            if(buf[mark] == ByteBuffer.LONG && i == n){
                 long res = 0;
-                res += (((long) buf[mark + 2]) << 56);
-                res += (((long) buf[mark + 3]) << 48);
-                res += (((long) buf[mark + 4]) << 40);
-                res += (((long) buf[mark + 5]) << 32);
-                res += (((long) buf[mark + 6]) << 24);
-                res += (((long) buf[mark + 7]) << 16);
-                res += (((long) buf[mark + 8]) << 8);
+                res += ((long) buf[mark + 2] << 56);
+                res += ((long) buf[mark + 3] << 48);
+                res += ((long) buf[mark + 4] << 40);
+                res += ((long) buf[mark + 5] << 32);
+                res += ((long) buf[mark + 6] << 24);
+                res += ((long) buf[mark + 7] << 16);
+                res += ((long) buf[mark + 8] << 8);
                 res += buf[mark + 9];
                 return new Timestamp(res);
-            } else if (buf[mark] == ByteBuffer.CHAR) {
+            } else if (buf[mark] == ByteBuffer.LONG) {
                 i++;
             }
             mark += (2 + buf[mark + 1]);
