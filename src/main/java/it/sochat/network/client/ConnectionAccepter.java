@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class ConnectionAccepter {
     ServerSocket server;
 
-    ArrayList<ConnectionHandler> activeHandlers = new ArrayList<>();
+    volatile ArrayList<ConnectionHandler> activeHandlers = new ArrayList<>();
 
     public ConnectionAccepter(){
         try {
@@ -36,7 +36,7 @@ public class ConnectionAccepter {
         Main.logger.debug("run() exit");
     }
 
-    public synchronized ConnectionHandler addHandler(ConnectionHandler h){
+    public ConnectionHandler addHandler(ConnectionHandler h){
         activeHandlers.add(h);
         return h;
     }

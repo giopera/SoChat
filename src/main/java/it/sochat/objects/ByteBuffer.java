@@ -30,7 +30,7 @@ public class ByteBuffer {
         this.buf = Arrays.copyOf(start, start.length - 1);
     }
 
-    public void addInteger(Integer i){
+    public void add(int i){
         byte[] res = new byte[buf.length + Integer.BYTES + 2];
 
         System.arraycopy(buf, 0, res, 0, buf.length);
@@ -41,11 +41,11 @@ public class ByteBuffer {
         res[buf.length + 2] = (byte)(i >>> 24);
         res[buf.length + 3] = (byte)(i >>> 16);
         res[buf.length + 4] = (byte)(i >>> 8);
-        res[buf.length + 5] = i.byteValue();
+        res[buf.length + 5] = (byte) i;
 
         buf = res;
     }
-    public void addIntegerArray(int[] i){
+    public void add(int[] i){
         byte[] res = new byte[buf.length + (Integer.BYTES * i.length) + 2];
         System.arraycopy(buf, 0, res, 0, buf.length);
 
@@ -58,29 +58,29 @@ public class ByteBuffer {
             res[buf.length + 2 + (j * Integer.BYTES)] = (byte) (integer >>> 24);
             res[buf.length + 3 + (j * Integer.BYTES)] = (byte) (integer >>> 16);
             res[buf.length + 4 + (j * Integer.BYTES)] = (byte) (integer >>> 8);
-            res[buf.length + 5 + (j * Integer.BYTES)] = (byte) integer;
+            res[buf.length + 5 + (j * Integer.BYTES)] = (byte) (integer);
         }
 
         buf = res;
     }
 
-    public void addChar(Character c){
+    public void add(char c){
         byte[] res = new byte[buf.length + Character.BYTES + 2];
         System.arraycopy(buf, 0, res, 0, buf.length);
 
-        short s = (short) c.charValue();
+        short s = (short) c;
 
         res[buf.length] = ByteBuffer.CHAR;
         closeChar ^= res[buf.length];
         res[buf.length + 1] = (byte) (Character.BYTES);
 
-        res[buf.length + 4] = (byte) (s >>> 8);
-        res[buf.length + 5] = (byte) s;
+        res[buf.length + 2] = (byte) (s >>> 8);
+        res[buf.length + 3] = (byte) s;
 
         buf = res;
     }
 
-    public void addString(String c){
+    public void add(String c){
         byte[] res = new byte[buf.length + (Character.BYTES * c.length()) + 2];
         System.arraycopy(buf, 0, res, 0, buf.length);
 
@@ -96,7 +96,7 @@ public class ByteBuffer {
         buf = res;
     }
 
-    public void addLong(long l){
+    public void add(long l){
         byte[] res = new byte[buf.length + Long.BYTES + 2];
         System.arraycopy(buf, 0, res, 0, buf.length);
 
@@ -133,10 +133,10 @@ public class ByteBuffer {
         for(int i = 0; i <= n;){
             if(buf[mark] == ByteBuffer.INTEGER && i == n){
                 int res = 0;
-                res += (((int) buf[mark+2]) << 24);
-                res += (((int) buf[mark+3]) << 16);
-                res += (((int) buf[mark+4]) << 8);
-                res += buf[mark + 5];
+                res |= (((int) buf[mark+2]) << 24);
+                res |= (((int) buf[mark+3]) << 16);
+                res |= (((int) buf[mark+4]) << 8);
+                res |= buf[mark + 5];
                 return res;
             } else if (buf[mark] == ByteBuffer.INTEGER) {
                 i++;
@@ -151,8 +151,8 @@ public class ByteBuffer {
         for(int i = 0; i <= n;){
             if(buf[mark] == ByteBuffer.CHAR && i == n){
                 int res = 0;
-                res += (((int) buf[mark+2]) << 8);
-                res += buf[mark + 3];
+                res |= (((int) buf[mark+2]) << 8);
+                res |= buf[mark + 3];
                 return (char) res;
             } else if (buf[mark] == ByteBuffer.CHAR) {
                 i++;
@@ -163,20 +163,25 @@ public class ByteBuffer {
 
     }
 
-    public Timestamp getTimestamp(int n){
+    /**
+     * @deprecated
+     * @param n
+     * @return
+     */
+    public long getLong(int n){
         int mark = 7;
         for(int i = 0; i <= n;){
             if(buf[mark] == ByteBuffer.LONG && i == n){
-                long res = 0;
-                res += ((long) buf[mark + 2] << 56);
-                res += ((long) buf[mark + 3] << 48);
-                res += ((long) buf[mark + 4] << 40);
-                res += ((long) buf[mark + 5] << 32);
-                res += ((long) buf[mark + 6] << 24);
-                res += ((long) buf[mark + 7] << 16);
-                res += ((long) buf[mark + 8] << 8);
-                res += buf[mark + 9];
-                return new Timestamp(res);
+                long res = 0L;
+                res |= ((long) buf[mark + 2] << 56);
+                res |= ((long) buf[mark + 3] << 48);
+                res |= ((long) buf[mark + 4] << 40);
+                res |= ((long) buf[mark + 5] << 32);
+                res |= (buf[mark + 6] << 24);
+                res |= (buf[mark + 7] << 16);
+                res |= (buf[mark + 8] << 8);
+                res |= (buf[mark + 9]);
+                return res;
             } else if (buf[mark] == ByteBuffer.LONG) {
                 i++;
             }
@@ -193,8 +198,8 @@ public class ByteBuffer {
                 StringBuilder res = new StringBuilder();
                 for(int j = 0; j < buf[mark+1]; j += 2){
                     int a = 0;
-                    a += buf[mark + 2 + j] << 8;
-                    a += buf[mark + 3 + j];
+                    a |= buf[mark + 2 + j] << 8;
+                    a |= buf[mark + 3 + j];
                     res.append((char) a);
                 }
                 return res.toString();
@@ -214,10 +219,10 @@ public class ByteBuffer {
                 int[] res = new int[(buf[mark+1]) / Integer.BYTES];
                 for(int j = 0; j < buf[mark+1]; j += 4){
                     int a = 0;
-                    a += buf[mark + 2 + j] << 24;
-                    a += buf[mark + 3 + j] << 16;
-                    a += buf[mark + 4 + j] << 8;
-                    a += buf[mark + 5 + j];
+                    a |= buf[mark + 2 + j] << 24;
+                    a |= buf[mark + 3 + j] << 16;
+                    a |= buf[mark + 4 + j] << 8;
+                    a |= buf[mark + 5 + j];
                     res[j/4] = a;
                 }
                 return res;

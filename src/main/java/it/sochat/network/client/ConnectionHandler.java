@@ -1,6 +1,8 @@
 package it.sochat.network.client;
 
 import it.sochat.network.packets.Packet;
+import it.sochat.network.packets.c2c.C2CMessageSend;
+import it.sochat.network.packets.c2c.C2CUpdateInfo;
 
 import java.io.*;
 import java.io.ObjectInputFilter.Status;
@@ -28,11 +30,11 @@ public class ConnectionHandler extends Thread {
     public void run() {
         while(true){
             try {
-                Packet s = (Packet) in.readObject();
+                Packet p = (Packet) in.readObject();
                 logger.debug("Something is coming in");
-                if(s == null)
+                if(p == null)
                     return;
-                logger.debug(s.toString());
+                logger.debug(p.toString());
             } catch (IOException | ClassNotFoundException e){
                 if(e.getClass().equals(EOFException.class))
                     break;
@@ -43,7 +45,13 @@ public class ConnectionHandler extends Thread {
 
     }
 
-    public void handlePacket(){
+    public void handlePacket(Packet p){
+        Class<?> cl = p.getPacketType();
+        if(cl.equals(C2CMessageSend.class)){
+            //TODO: Handle packet when GUI is available
+        } else if (cl.equals(C2CUpdateInfo.class)){
+            //TODO: Handle packet when GUI is available
+        }
 
     }
 }

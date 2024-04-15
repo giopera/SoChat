@@ -27,10 +27,10 @@ public class C2CUpdateInfo extends C2CPacket {
     @Override
     public byte[] encode() {
         ByteBuffer buffer = new ByteBuffer(this);
-        buffer.addString(newInfo.getUsername());
-        buffer.addString(oldInfo.getUsername());
-        buffer.addInteger(newInfo.getColor().getRGB());
-        buffer.addInteger(oldInfo.getColor().getRGB());
+        buffer.add(newInfo.getUsername());
+        buffer.add(oldInfo.getUsername());
+        buffer.add(newInfo.getColor().getRGB());
+        buffer.add(oldInfo.getColor().getRGB());
         return buffer.getByteArr();
     }
 
