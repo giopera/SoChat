@@ -2,6 +2,7 @@ package it.sochat.objects;
 
 import it.sochat.network.packets.Packet;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Arrays;
 
@@ -163,25 +164,11 @@ public class ByteBuffer {
 
     }
 
-    /**
-     * @deprecated
-     * @param n
-     * @return
-     */
     public long getLong(int n){
         int mark = 7;
         for(int i = 0; i <= n;){
             if(buf[mark] == ByteBuffer.LONG && i == n){
-                long res = 0L;
-                res |= ((long) buf[mark + 2] << 56);
-                res |= ((long) buf[mark + 3] << 48);
-                res |= ((long) buf[mark + 4] << 40);
-                res |= ((long) buf[mark + 5] << 32);
-                res |= (buf[mark + 6] << 24);
-                res |= (buf[mark + 7] << 16);
-                res |= (buf[mark + 8] << 8);
-                res |= (buf[mark + 9]);
-                return res;
+                return new BigInteger(Arrays.copyOfRange(buf, mark+2, mark+10)).longValue();
             } else if (buf[mark] == ByteBuffer.LONG) {
                 i++;
             }

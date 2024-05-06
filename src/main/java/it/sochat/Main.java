@@ -3,6 +3,7 @@ package it.sochat;
 import it.sochat.network.client.ConnectionAccepter;
 import it.sochat.network.packets.c2c.C2CMessageSend;
 import it.sochat.objects.ByteBuffer;
+import it.sochat.ui.uiMain;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
@@ -17,7 +18,7 @@ public class Main {
 
     public static Logger logger = LogManager.getLogger();
     public static ConnectionAccepter connectionAccepter = new ConnectionAccepter();
-    public static void main(String[] args) {
+    public static void main(String[] args){
         connectionAccepter.run();
         Socket s = null;
         logger.debug("Server Runned");
